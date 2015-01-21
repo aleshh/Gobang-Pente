@@ -1,0 +1,110 @@
+html {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+
+/*  color: black;
+  background-color: #fff;
+*/
+  color: white;
+  background-color: #321;
+
+  margin-left: auto;
+  margin-right: auto;
+  width:684px;
+}
+
+a.plain {
+  color: white;
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 10px;
+}
+
+td {
+  background-image: url('images/background.png');
+  background-size: contain;
+  width:34px;
+  height: 34px;
+  /*border: 1px solid white;*/
+}
+
+#msgArea {
+  float: left;
+}
+
+#auxMessageArea {
+  float: right;
+}
+
+.dot {
+  background-image: url('images/background-dot.png');
+}
+.white {
+  background-image: url('images/white.png');
+}
+.black {
+  background-image: url('images/black.png');
+}
+
+#popup {
+  background-color: #fff;
+  color: black;
+  /*padding: 0;*/
+  display: none;
+  position: absolute;
+  /*opacity: 0;*/
+  z-index: 11000;
+  /*margin: 0 auto;*/
+  left: 50%;
+  width: 500px;
+  margin-left: -250px;
+  top: 100px;
+  padding-bottom: 20px;
+}
+
+#popup p, #popup form { 
+  padding: 5px 30px;
+}
+
+#popup h1 { 
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding: 20px 30px;
+  background-color: #877;
+  color: #fff;
+}
+
+#popup form {
+  
+}
+
+#popup .submit {
+  margin-top: 50px;
+  border-radius: 5px;
+  background-color: #877;
+  color: white;
+  border:none;
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+
+#overlay {
+    opacity: .6;
+    position: fixed;
+    z-index:100;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #000;
+    display: none;
+}

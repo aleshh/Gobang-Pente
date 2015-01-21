@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Gobang</title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+  <script src="jquery.leanModal.min.js"></script>
+  
+  <script src="gobang.js"></script> 
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+
+  <table id="gameBoard"></table>
+  <div id="msgArea"></div>
+  <div id="auxMessageArea"><a href="#" class="plain" id="options" >options</a></div>
+
+  <div style="clear:both"></div>
+
+  <div id="popup">
+    <h1>Gobang/Penté</h1>
+    <p>Win by placing five of your stones in a row, vertically, horizontally, or diagonally, with no empty points between them. Or, win by capturing five pairs of your opponent's stones. <a href="http://www.pente.net/instructions.html" target="_blank" >more</a></p>
+    <form action="">
+      <input type="radio" name="test1" value="Single-player" class="default" > Single-player &nbsp;&nbsp;
+      <input type="radio" name="test1" value="Two-player"> Two-player
+    </form>
+    <p>
+      <span class="submit">Play</span>
+    </p>
+  </div>
+
+  <div id="overlay"></div>
+
+</body>
+</html>
