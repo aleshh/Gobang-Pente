@@ -1,5 +1,6 @@
 html {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Raleway', sans-serif;
+  /*font-family: Helvetica, Arial, sans-serif;*/
   margin: 0;
   padding: 0;
 }
@@ -14,7 +15,7 @@ body {
 
   margin-left: auto;
   margin-right: auto;
-  width:684px;
+  width:686px;
 }
 
 a.plain {
@@ -26,6 +27,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   margin-bottom: 10px;
+  box-shadow: 0 0 50px 5px black;
+  border-top: 1px solid #e8e6b8;
+  border-left: 1px solid #e8e6b8;
+  border-bottom: 1px solid #6d6c44;
+  border-right: 1px solid #6d6c44;
 }
 
 td {
@@ -33,15 +39,25 @@ td {
   background-size: contain;
   width:34px;
   height: 34px;
-  /*border: 1px solid white;*/
 }
 
-#msgArea {
+#msgArea, #stolenWhite {
   float: left;
+  clear: both;
 }
 
-#auxMessageArea {
+#msgAreaRt, #stolenBlack {
   float: right;
+}
+
+#stolenWhite img, #stolenBlack img {
+  height: 34px;
+}
+
+#options {
+  font-size: .8em;
+  text-transform: uppercase;
+  color: #d70;
 }
 
 .dot {
@@ -82,8 +98,15 @@ td {
   color: #fff;
 }
 
-#popup form {
-  
+.playerName {
+  border-width: 0;
+  border-bottom: 1px solid black;
+  font-size: 1em;
+}
+
+#difficulty, #players {
+  position:absolute;
+  display:none;
 }
 
 #popup .submit {
@@ -95,7 +118,6 @@ td {
   padding: 10px 20px;
   font-size: 1em;
 }
-
 
 #overlay {
     opacity: .6;

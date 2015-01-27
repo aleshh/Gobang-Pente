@@ -5,10 +5,7 @@
   <meta charset="UTF-8">
   <title>Gobang</title>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
-  <script src="jquery.leanModal.min.js"></script>
-  
-  <script src="gobang.js"></script> 
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css" />
 
 </head>
@@ -16,7 +13,9 @@
 
   <table id="gameBoard"></table>
   <div id="msgArea"></div>
-  <div id="auxMessageArea"><a href="#" class="plain" id="options" >options</a></div>
+  <div id="msgAreaRt"><span id="auxMessageArea"></span> <a href="#" class="plain" id="options" >Options</a></div>
+  <div id="stolenWhite"></div>
+  <div id="stolenBlack"></div>
 
   <div style="clear:both"></div>
 
@@ -24,15 +23,32 @@
     <h1>Gobang/Penté</h1>
     <p>Win by placing five of your stones in a row, vertically, horizontally, or diagonally, with no empty points between them. Or, win by capturing five pairs of your opponent's stones. <a href="http://www.pente.net/instructions.html" target="_blank" >more</a></p>
     <form action="">
-      <input type="radio" name="test1" value="Single-player" class="default" > Single-player &nbsp;&nbsp;
-      <input type="radio" name="test1" value="Two-player"> Two-player
+      <div id="singlePlayer">
+        <input type="radio" name="singlePlayer" value="Single-player" class="default" > Single-player &nbsp;&nbsp;
+        <input type="radio" name="singlePlayer" value="Two-player"> Two-player
+      </div>
+      <br>
+      <div id="difficulty">
+        <input type="radio" name="difficulty" value="Easy"> Easy &nbsp;&nbsp;
+        <input type="radio" name="difficulty" value="Medium" class="default" > Medium &nbsp;&nbsp;
+        <input type="radio" name="difficulty" value="Hard"> Hard &nbsp;&nbsp;      
+      </div>
+      <div id="players">
+        <input type="text" id="playerOne" placeholder="Player 1" class="playerName">
+        <input type="text" id="playerTwo" placeholder="Player 2" class="playerName">
+      </div>
     </form>
+    <br><br>
     <p>
-      <span class="submit">Play</span>
+      <span id="play" class="submit">Play</span>
+      <span id="resume" class="submit">Resume</span>&nbsp;<span id="newGame" class="submit">New game</span>
     </p>
   </div>
 
   <div id="overlay"></div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>  
+  <script src="gobang.js"></script> 
 
 </body>
 </html>

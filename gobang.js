@@ -1,11 +1,17 @@
 // gobang
+// alesh.com
 //
 // todo: promoting an unblocked 3-row to 4 should be rated higher than blocking opponent's 3-row
 // todo: attack one of opponent's pairs instead of defending own pair?
 // todo: steal opponent's pair instead of defending own pair? depends on stolen pairs?
 // todo: adjust continue statement on line 57
+// 
+// todo: lil bit of piece animation (fade in/out)
+// todo: make 'easy' easier without being retarded (e.g. adjust individual rule probablity?)
 //
-// 2015-01-21 Popup on page load: jQuery 
+// 2015-01-25 
+// 2015-01-25 more interface functionality: stolen pairs displayed graphically, menu displays play/resume, etc.
+// 2015-01-21 popup with single-player, difficulty select
 // 2014-12-19 modal dialog simple directions popup
 // 2014-12-16 pretty darned good intelligence -- steals a pair to break up a 3-in-row if possible, etc.
 // 2014-12-14 computer takes guesses to prevent basic mistakes
@@ -41,6 +47,10 @@ function perpendicularDirections(direction) {
 function brain() {
   var highestStrength = 0;
   var possibilities = []; // set of all the spots on the board we're considering
+
+  if (model.won) {
+    return null;
+  }
 
   for (var i = 0; i < model.boardSize; i++) {
     for (var j = 0; j < model.boardSize; j++) {
@@ -219,7 +229,7 @@ function brain() {
         }
       }
 
-      strength += Math.random();
+      strength += Math.random() * model.difficulty;
 
       if (strength >= highestStrength - 10 && strength > 1) {
         possibilities[Number(possibility)] = strength;
@@ -252,6 +262,9 @@ function brain() {
 
 var model = {
   twoPlayer: false,
+  playerOneName: "",
+  playerTwoName: "",
+  difficulty: 1,
   boardSize: 19,
   currentPlayerColor: 'white',
   currentMoveX: null,
@@ -267,6 +280,14 @@ var model = {
       return 'black';
     } else {
       return 'white';
+    }
+  },
+
+  currentPlayerName: function() {
+    if (this.currentPlayerColor == "white") {
+      return this.playerOneName;
+    } else {
+      return this.playerTwoName;
     }
   },
 
@@ -334,6 +355,11 @@ var model = {
   },
 
   playPiece: function(move) {
+
+    if (this.won) {
+      return null;
+    }
+
     // console.log('[playPiece] input:' + move);
     if (!this.pieces[move]) { // if the move is unoccupied, it's a legal move
 
@@ -427,7 +453,7 @@ var model = {
           console.log('Pair stolen!');
           delete this.pieces[this.getCoordStringRelative(a, 1)];
           delete this.pieces[this.getCoordStringRelative(a, 2)];
-          if (debug) console.log (this.pieces);
+          // if (debug) console.log (this.pieces);
           view.removeStone(this.getCoordStringRelative(a, 1));
           view.removeStone(this.getCoordStringRelative(a, 2));
           if (this.currentPlayerColor == 'white') this.blackStolenPairs++;
@@ -436,10 +462,11 @@ var model = {
             this.won = this.currentPlayerColor;
           }
           console.log('blackStolenPairs: ' + this.blackStolenPairs + ', whiteStolenPairs: ' + this.whiteStolenPairs);
-          var msg = '';
-          if (this.blackStolenPairs > 0 ) msg += 'White has stolen ' + this.blackStolenPairs + ' pairs. ';
-          if (this.whiteStolenPairs > 0 ) msg += 'Black has stolen ' + this.whiteStolenPairs + ' pairs.';
-          view.displayAuxMsg(msg);
+          // var msg = '';
+          // if (this.blackStolenPairs > 0 ) msg += 'White has stolen ' + this.blackStolenPairs + ' pairs. ';
+          // if (this.whiteStolenPairs > 0 ) msg += 'Black has stolen ' + this.whiteStolenPairs + ' pairs.';
+          // view.displayAuxMsg(msg);
+          view.displayStolenPairs();
         }
       }
 
@@ -457,7 +484,7 @@ var model = {
 
       if (!this.won) {
         this.currentPlayerColor = this.currentOpponentColor();
-        view.displayMsg('Current move: ' + this.currentPlayerColor);
+        view.updateMoveMsg();
       }
     } else {
       if (debug) console.log('Spot already taken');
@@ -470,6 +497,7 @@ var view = {
 
   initializeBoard: function() {
     var boardTarget = document.getElementById('gameBoard');
+    boardTarget.innerHTML = "";
     for (var i = 0; i < model.boardSize; i ++) {
       var row = document.createElement('tr');
       for (var j = 0; j < model.boardSize; j ++) {
@@ -493,7 +521,8 @@ var view = {
       document.getElementById(dots[i]).className = 'dot';
     }
     if (debug) console.log('Board initialized. First move: ' + model.currentPlayerColor);
-    this.displayMsg('Current move: ' + model.currentPlayerColor);
+    this.displayMsg('');
+    // this.displayMsg('Current move: ' + model.currentPlayerColor);
   },
 
   placeStone: function(position, color) {
@@ -511,25 +540,112 @@ var view = {
     document.getElementById('msgArea').innerHTML = message;
   },
 
-  displayAuxMsg: function(message) {
-    document.getElementById('auxMessageArea').innerHTML = message;
+  updateMoveMsg: function() {
+    console.log('updateMoveMsg');
+    if (model.twoPlayer) {
+      view.displayMsg('Current move: ' + model.currentPlayerName() + ' (' +  model.currentPlayerColor + ')');
+    } else {
+      view.displayMsg('Current move: ' + model.currentPlayerColor);
+    }
+  },
+
+  // displayAuxMsg: function(message) {
+  //   document.getElementById('auxMessageArea').innerHTML = message;
+  // },
+
+  displayStolenPairs: function() {
+    console.log('processing stolen pairs images')
+    var whiteString = "";
+    var blackString = "";
+    for (i = 0; i < model.whiteStolenPairs; i ++) {
+      whiteString += '<img src="images/stolen-white.png" alt="Stolen White Pair">';
+    }
+    for (i = 0; i < model.blackStolenPairs; i ++) {
+      blackString += '<img src="images/stolen-black.png" alt="Stolen White Pair">';
+    }
+    console.log(whiteString);
+    console.log(blackString);
+    document.getElementById('stolenWhite').innerHTML = whiteString;
+    document.getElementById('stolenBlack').innerHTML = blackString;
   },
 
   displaySettings: function() {
     var $overlay = $("#overlay");
     var $popup = $("#popup");
-    $overlay.css("display", "initial");
-    $popup.css("display", "block");
-    $('.default').attr("checked", true);
-    $(".submit").css("cursor", "pointer").click(function() {
-      $overlay.fadeTo("slow", 0, function() { 
-        $overlay.css("display", "none")
-      });
-      $popup.fadeTo("slow", 0, function() { 
-        $popup.css("display", "none")
-      });
+    var $difficulty = $("#difficulty");
+    var $players = $("#players");
+    var $submit = $(".submit");
+
+    $overlay.fadeIn("slow");
+    $popup.fadeIn("slow");
+
+    $(".default").prop("checked", true);
+    $difficulty.show();
+    $players.hide();
+
+    if ($.isEmptyObject(model.pieces) || model.won) {
+      $('#newGame, #resume').hide();
+      $('#play').show();
+    } else {
+      $('#play').hide();
+      $('#newGame, #resume').show();
+    }
+
+    $("input[name='singlePlayer']").change(function() {
+      if ($("input[name='singlePlayer']:checked").val() === "Single-player") {
+        $difficulty.fadeIn("slow");
+        $players.fadeOut("slow");
+      } else {
+        $difficulty.fadeOut("slow");
+        $players.fadeIn("slow");
+      }
+    });
+
+    $submit.css("cursor", "pointer").click(function(e) {
+      if ($("input[name='singlePlayer']:checked").val() === "Single-player") {
+        model.twoPlayer = false;
+      } else {
+        model.twoPlayer = true;
+      }
+
+      switch($("input[name='difficulty']:checked").val()) {
+        case "Easy":
+          console.log('Easy');
+          model.difficulty = 17;
+          break;
+        case "Medium":
+          console.log('Medium');
+          model.difficulty = 5;
+          break;
+        case "Hard":
+          console.log("Hard");
+          model.difficulty = 1;
+          break;
+      }
+
+      model.playerOneName = $("#playerOne").val();
+      model.playerTwoName = $("#playerTwo").val();
+      if (model.playerOneName == "") {
+        model.playerOneName = "Player 1";
+      }
+      if (model.playerTwoName == "") {
+        model.playerTwoName = "Player 2";
+      }
+
+      if (e.target.id === 'newGame') {
+        model.pieces = {};
+        model.won = "";
+        model.currentPlayerColor = 'white';
+        view.initializeBoard();
+      }
+
+      $overlay.fadeOut("slow");
+      $popup.fadeOut("slow");
+      view.updateMoveMsg();
+
     });
   }
+
 }
 
 var controller = {
@@ -539,8 +655,6 @@ var controller = {
     if (!model.pieces[move] && !model.won) {
       model.playPiece(move); 
       if (!model.twoPlayer) {
-        // model.playPiece(brain());
-        // setTimeout(function() {model.playPiece(brain());}, 750);
         setTimeout(function() {model.playPiece(brain());}, 500);
       }
     }
@@ -553,12 +667,9 @@ window.onload = function() {
   view.initializeBoard();
   view.displaySettings();
 
-  document.getElementById('options').onclick = view.displaySettings();
+  // document.getElementById('options').onclick = view.displaySettings();
 
-  // $("#options").click(function() {
-  //   console.log('test');
-  //   view.displaySettings();
-  // });
+  $("#options").click(view.displaySettings);
 
   // model.playPiece('0304'); // white
   // model.playPiece('0204');
