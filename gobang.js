@@ -489,6 +489,13 @@ var model = {
     } else {
       if (debug) console.log('Spot already taken');
     }
+  },
+
+  resetGame: function() {
+    this.pieces = {};
+    this.won = "";
+    this.currentPlayerColor = "white";
+    view.initializeBoard();
   }
 
 }
@@ -576,6 +583,10 @@ var view = {
     var $players = $("#players");
     var $submit = $(".submit");
 
+    if (model.won) {
+      model.resetGame();
+    }
+
     $overlay.fadeIn("slow");
     $popup.fadeIn("slow");
 
@@ -633,10 +644,11 @@ var view = {
       }
 
       if (e.target.id === 'newGame') {
-        model.pieces = {};
-        model.won = "";
-        model.currentPlayerColor = 'white';
-        view.initializeBoard();
+        model.resetGame();
+        // model.pieces = {};
+        // model.won = "";
+        // model.currentPlayerColor = 'white';
+        // view.initializeBoard();
       }
 
       $overlay.fadeOut("slow");
