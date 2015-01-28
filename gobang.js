@@ -229,8 +229,24 @@ function brain() {
         }
       }
 
-      strength += Math.random() * model.difficulty;
-
+      switch(model.difficulty) {
+        case "Easy":
+          if (Object.keys(model.pieces).length < 5) {
+            strength += Math.random() * 10;
+          } else {
+            strength += Math.random() * 20;
+          }
+          break;
+        case "Medium":
+          strength += Math.random * 7;
+          break;
+        case "Hard":
+          strenght += Math.random * 2;
+          break;
+        default:
+          console.log("ERROR: difficulty not set correctly!");
+      }
+      
       if (strength >= highestStrength - 10 && strength > 1) {
         possibilities[Number(possibility)] = strength;
       }
@@ -264,7 +280,7 @@ var model = {
   twoPlayer: false,
   playerOneName: "",
   playerTwoName: "",
-  difficulty: 1,
+  difficulty: "Medium",
   boardSize: 19,
   currentPlayerColor: 'white',
   currentMoveX: null,
@@ -462,10 +478,6 @@ var model = {
             this.won = this.currentPlayerColor;
           }
           console.log('blackStolenPairs: ' + this.blackStolenPairs + ', whiteStolenPairs: ' + this.whiteStolenPairs);
-          // var msg = '';
-          // if (this.blackStolenPairs > 0 ) msg += 'White has stolen ' + this.blackStolenPairs + ' pairs. ';
-          // if (this.whiteStolenPairs > 0 ) msg += 'Black has stolen ' + this.whiteStolenPairs + ' pairs.';
-          // view.displayAuxMsg(msg);
           view.displayStolenPairs();
         }
       }
@@ -590,9 +602,19 @@ var view = {
     $overlay.fadeIn("slow");
     $popup.fadeIn("slow");
 
-    $(".default").prop("checked", true);
-    $difficulty.show();
-    $players.hide();
+    // $(".default").prop("checked", true);
+    // $difficulty.show();
+    // $players.hide();
+
+    if (model.twoPlayer) {
+      $('[value="Two-player"]').prop('checked', true);
+      $players.show();
+    } else {
+      $('[value="Single-player"]').prop('checked', true);
+      $difficulty.show();
+    }
+
+    $('[value=' + model.difficulty + ']').prop('checked', true);
 
     if ($.isEmptyObject(model.pieces) || model.won) {
       $('#newGame, #resume').hide();
@@ -619,20 +641,7 @@ var view = {
         model.twoPlayer = true;
       }
 
-      switch($("input[name='difficulty']:checked").val()) {
-        case "Easy":
-          console.log('Easy');
-          model.difficulty = 17;
-          break;
-        case "Medium":
-          console.log('Medium');
-          model.difficulty = 5;
-          break;
-        case "Hard":
-          console.log("Hard");
-          model.difficulty = 1;
-          break;
-      }
+      model.difficulty = $("input[name=difficulty]:checked").val();
 
       model.playerOneName = $("#playerOne").val();
       model.playerTwoName = $("#playerTwo").val();
