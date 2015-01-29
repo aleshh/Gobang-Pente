@@ -238,10 +238,10 @@ function brain() {
           }
           break;
         case "Medium":
-          strength += Math.random * 7;
+          strength += Math.random() * 7;
           break;
         case "Hard":
-          strenght += Math.random * 2;
+          strength += Math.random() * 2;
           break;
         default:
           console.log("ERROR: difficulty not set correctly!");
