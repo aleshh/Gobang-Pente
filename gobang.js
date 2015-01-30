@@ -278,6 +278,7 @@ function brain() {
 
 var model = {
   twoPlayer: false,
+  currentPlayerHuman: true,
   playerOneName: "",
   playerTwoName: "",
   difficulty: "Medium",
@@ -491,7 +492,8 @@ var model = {
 
       if (this.won) {
         console.log(this.currentPlayerColor + ' wins');
-        view.displayMsg('Game over: ' + this.currentPlayerColor + ' wins.');
+        // view.displayMsg('Game over: ' + this.currentPlayerColor + ' wins.');
+        view.displayWin();
       }
 
       if (!this.won) {
@@ -507,6 +509,12 @@ var model = {
     this.pieces = {};
     this.won = "";
     this.currentPlayerColor = "white";
+    this.whiteStolenPairs = 0;
+    this.blackStolenPairs = 0;
+    this.currentPlayerHuman = true;
+    this.won = null;
+    this.pieces = {};
+    this.pairsStolen = [];
     view.initializeBoard();
   }
 
@@ -540,6 +548,9 @@ var view = {
       document.getElementById(dots[i]).className = 'dot';
     }
     if (debug) console.log('Board initialized. First move: ' + model.currentPlayerColor);
+    document.getElementById('stolenWhite').innerHTML = "";
+    document.getElementById('stolenBlack').innerHTML = "";
+    document.getElementById('options').innerHTML = "Options";
     this.displayMsg('');
     // this.displayMsg('Current move: ' + model.currentPlayerColor);
   },
@@ -586,6 +597,24 @@ var view = {
     console.log(blackString);
     document.getElementById('stolenWhite').innerHTML = whiteString;
     document.getElementById('stolenBlack').innerHTML = blackString;
+  },
+
+  displayWin: function() {
+    var winString = 'Gamer over: ';
+    if (model.twoPlayer) {
+      winString += model.currentPlayerName() + ' (' +  model.currentPlayerColor + ') wins.';
+    } else {
+      if (model.currentPlayerHuman) {
+        winString += 'You win. (' + model.currentPlayerColor + ')';
+      } else {
+        winString += 'Computer wins. (' + model.currentPlayerColor + ')';
+      }
+  }
+  console.log('winString: ' + winString);
+    $('#msgArea').html(winString).hide().fadeIn('fast').fadeOut('fast').fadeIn('fast').fadeOut('fast').fadeIn('fast');
+    $('#options').fadeOut('slow').text('Play Again?').fadeIn('slow');
+    // this.displayMsg('Game over: ' + model.currentPlayerColor + ' wins.');
+
   },
 
   displaySettings: function() {
@@ -672,10 +701,12 @@ var view = {
 var controller = {
 
   click: function(e) {
+    model.currentPlayerHuman = true;
     var move = e.target.id;
     if (!model.pieces[move] && !model.won) {
       model.playPiece(move); 
       if (!model.twoPlayer) {
+        model.currentPlayerHuman = false;
         setTimeout(function() {model.playPiece(brain());}, 500);
       }
     }
