@@ -9,7 +9,8 @@
 // todo: lil bit of piece animation (fade in/out)
 // todo: make 'easy' easier without being retarded (e.g. adjust individual rule probablity?)
 //
-// 2015-01-25 
+// 2015-01-30 fancied up win message, play again message; fixed game reset
+// 2015-01-29 correctly reset the game to play again, display players' names
 // 2015-01-25 more interface functionality: stolen pairs displayed graphically, menu displays play/resume, etc.
 // 2015-01-21 popup with single-player, difficulty select
 // 2014-12-19 modal dialog simple directions popup
