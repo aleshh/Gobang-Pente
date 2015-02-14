@@ -548,12 +548,18 @@ var view = {
     for (var i = 0; i < dots.length; i ++) {
       document.getElementById(dots[i]).className = 'dot';
     }
+    this.resizeBoard();
     if (debug) console.log('Board initialized. First move: ' + model.currentPlayerColor);
     document.getElementById('stolenWhite').innerHTML = "";
     document.getElementById('stolenBlack').innerHTML = "";
     document.getElementById('options').innerHTML = "Options";
     this.displayMsg('');
     // this.displayMsg('Current move: ' + model.currentPlayerColor);
+  },
+
+  resizeBoard: function() {
+    var $cells = $('#gameBoard td');
+    $cells.height($cells.width());
   },
 
   placeStone: function(position, color) {
@@ -730,6 +736,9 @@ window.onload = function() {
   // model.playPiece('0305');
   // model.playPiece('0404'); // white
   // model.playPiece('0103');
+
+  $(window).resize(view.resizeBoard);
+
 
   var el = document.getElementById('gameBoard');
   el.onclick = controller.click; // see http://stackoverflow.com/questions/27295052/why-is-my-method-not-seeing-this-property
