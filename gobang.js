@@ -5,7 +5,7 @@
 // todo: attack one of opponent's pairs instead of defending own pair?
 // todo: steal opponent's pair instead of defending own pair? depends on stolen pairs?
 // todo: adjust continue statement on line 57
-// 
+//
 // todo: lil bit of piece animation (fade in/out)
 // todo: make 'easy' easier without being retarded (e.g. adjust individual rule probablity?)
 //
@@ -66,14 +66,14 @@ function brain() {
 
         // adjacent piece of either color
         if (model.getPiece(i, j, a, 1)) {
-          strength += 1; 
+          strength += 1;
         }
 
         if (strength == 0) continue;
 
         // pair that can be stolen (b1)
-        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() && 
-            model.getPiece(i, j, a, 2) == model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() &&
+            model.getPiece(i, j, a, 2) == model.currentOpponentColor() &&
             model.getPiece(i, j, a, 3) == model.currentPlayerColor) {
           strength += 10;
           console.log('[brain] found pair to steal ' + model.coordString(i,j));
@@ -105,16 +105,16 @@ function brain() {
         }
 
         // defend vulnerable pair (b2)
-        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor && 
-            model.getPiece(i, j, a, 2) == model.currentPlayerColor && 
+        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor &&
+            model.getPiece(i, j, a, 2) == model.currentPlayerColor &&
             model.getPiece(i, j, a, 3) == model.currentOpponentColor()) {
           strength += 10;
           console.log('[brain] found vulnerable pair ' + model.coordString(i,j));
         }
 
         // block 3-in-row (b3)
-        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() && 
-            model.getPiece(i, j, a, 2) == model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() &&
+            model.getPiece(i, j, a, 2) == model.currentOpponentColor() &&
             model.getPiece(i, j, a, 3) == model.currentOpponentColor() &&
             model.getPiece(i, j, a, 4) != model.currentPlayerColor) {
           strength += 15;
@@ -122,16 +122,16 @@ function brain() {
         }
 
         // try to make a 3-in-row if pair exists (merge with b1?) (b4.a)
-        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor && 
-            model.getPiece(i, j, a, 2) == model.currentPlayerColor && 
+        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor &&
+            model.getPiece(i, j, a, 2) == model.currentPlayerColor &&
             !model.getPiece(i, j, a, 3)) {
           strength += 4;
           console.log('[brain] making 3-in-row ' + model.coordString(i,j));
         }
 
         // try to make a 3-in-row if two orphans exist (b4.b)
-        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor && 
-            model.getPiece(i, j, a, 2) != model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor &&
+            model.getPiece(i, j, a, 2) != model.currentOpponentColor() &&
             model.getPiece(i, j, oppositeDirection(a), 1) == model.currentPlayerColor &&
             model.getPiece(i, j, oppositeDirection(a), 2) != model.currentOpponentColor()
             ) {
@@ -140,24 +140,24 @@ function brain() {
         }
 
         // attack opponent's undefended pair (b5)
-        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() && 
-            model.getPiece(i, j, a, 2) == model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentOpponentColor() &&
+            model.getPiece(i, j, a, 2) == model.currentOpponentColor() &&
             !model.getPiece(i, j, a, 3)) {
           strength += 1;
           console.log('[brain] attacking undefended pair');
         }
 
         // don't set up a vulnerable pair (b6.a)
-        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor && 
-            model.getPiece(i, j, a, 2) == model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor &&
+            model.getPiece(i, j, a, 2) == model.currentOpponentColor() &&
             !model.getPiece(i, j, oppositeDirection(a), 1)) {
           strength -= 8;
           console.log('[brain] preventing setting up vulnerable pair (b6.a)');
         }
 
         // don't set up a vulnerable pair (b6.b)
-        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor && 
-            model.getPiece(i, j, oppositeDirection(a), 1) == model.currentOpponentColor() && 
+        if (model.getPiece(i, j, a, 1) == model.currentPlayerColor &&
+            model.getPiece(i, j, oppositeDirection(a), 1) == model.currentOpponentColor() &&
             !model.getPiece(i, j, a, 2)) {
           strength -= 8;
           console.log('[brain] preventing setting up vulnerable pair (b6.b)');
@@ -168,7 +168,7 @@ function brain() {
             model.getPiece(i, j, a, 1) == model.currentOpponentColor() &&
             model.getPiece(i, j, a, 2) == model.currentOpponentColor() &&
             model.getPiece(i, j, oppositeDirection(a), 1) == model.currentOpponentColor() &&
-            model.getPiece(i, j, oppositeDirection(a), 2) != model.currentPlayerColor && 
+            model.getPiece(i, j, oppositeDirection(a), 2) != model.currentPlayerColor &&
             model.getPiece(i, j, a, 3) != model.currentPlayerColor
            ) {
           strength += 10;
@@ -223,7 +223,7 @@ function brain() {
       if (strength > 3) { // for promising spots, we're going to do a little extra work
         for (var l = 1; l < 4; l++) {
           if (model.getPiece(i, j, a, l) == model.currentPlayerColor) {
-            strength += 4 - l; // adjacent pieces add 3, 
+            strength += 4 - l; // adjacent pieces add 3,
           }
           console.log('[brain] adding score for possible nearby pieces ' + model.coordString(i,j));
           if (model.getPiece(i, j, a, l) == model.currentOpponentColor()) break;
@@ -247,7 +247,7 @@ function brain() {
         default:
           console.log("ERROR: difficulty not set correctly!");
       }
-      
+
       if (strength >= highestStrength - 10 && strength > 1) {
         possibilities[Number(possibility)] = strength;
       }
@@ -261,13 +261,13 @@ function brain() {
   console.log('[brain] possibilities: ');
   console.log(possibilities);
 
-  // // for those that are left, 
+  // // for those that are left,
   // // add points for nearby pieces of the same color
 
   // possibilities.forEach(function(e, i) {
 
   // });
-  
+
   var move = possibilities.indexOf(highestStrength).toString();
   while (move.length < 4) {
     move = "0" + move;
@@ -291,7 +291,7 @@ var model = {
   won: null,
   whiteStolenPairs: 0,
   blackStolenPairs: 0,
-  pieces: {}, // this was an array [] before ... makes no difference?!
+  pieces: {},
 
   currentOpponentColor: function() {
     if (this.currentPlayerColor == 'white') {
@@ -465,7 +465,7 @@ var model = {
       for (var i = 0; i < directions.length; i ++) {
         var a = directions[i];
         // console.log('[stolen pair?] direction: ' + a + ' piece: ' + this.getPieceRelative(a, 2));
-        if (this.getPieceRelative(a, 1) == this.currentOpponentColor() && 
+        if (this.getPieceRelative(a, 1) == this.currentOpponentColor() &&
             this.getPieceRelative(a, 2) == this.currentOpponentColor() &&
             this.getPieceRelative(a, 3) == this.currentPlayerColor) {
           console.log('Pair stolen!');
@@ -486,7 +486,7 @@ var model = {
 
       // Determine win
 
-      if (north + south >= 4 || east + west >= 4 || 
+      if (north + south >= 4 || east + west >= 4 ||
           northEast + southWest >= 4 || northWest + southEast >= 4) { // player wins
         this.won = this.currentPlayerColor;
       }
@@ -631,6 +631,14 @@ var view = {
     var $players = $("#players");
     var $submit = $(".submit");
 
+
+    if (localStorage.getItem('difficulty')) {
+      model.playerOneName = localStorage.getItem('playerOne');
+      model.playerTwoName = localStorage.getItem('playerTwo');
+      model.twoPlayer = (localStorage.getItem('twoplayer') == "true") ? true : false;
+      model.difficulty = localStorage.getItem('difficulty');
+    }
+
     if (model.won) {
       model.resetGame();
     }
@@ -696,6 +704,13 @@ var view = {
         // view.initializeBoard();
       }
 
+      // local storage set
+      var tp = model.twoPlayer ? "true" : "false";
+      localStorage.setItem('playerOne', model.playerOneName);
+      localStorage.setItem('playerTwo', model.playerTwoName);
+      localStorage.setItem('twoplayer', tp);
+      localStorage.setItem('difficulty', model.difficulty);
+
       $overlay.fadeOut("slow");
       $popup.fadeOut("slow");
       view.updateMoveMsg();
@@ -711,7 +726,7 @@ var controller = {
     model.currentPlayerHuman = true;
     var move = e.target.id;
     if (!model.pieces[move] && !model.won) {
-      model.playPiece(move); 
+      model.playPiece(move);
       if (!model.twoPlayer) {
         model.currentPlayerHuman = false;
         setTimeout(function() {model.playPiece(brain());}, 500);
