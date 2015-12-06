@@ -76,17 +76,24 @@ td {
 #popup {
   background-color: #fff;
   color: black;
-  /*padding: 0;*/
   display: none;
   position: absolute;
-  /*opacity: 0;*/
   z-index: 11000;
-  /*margin: 0 auto;*/
   left: 50%;
   width: 500px;
   margin-left: -250px;
   top: 100px;
   padding-bottom: 20px;
+}
+
+@media all and (max-width: 562px) {
+  #popup {
+    width: 90%;
+    margin: 0 auto;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+  }
 }
 
 #popup p, #popup form { 

@@ -607,7 +607,7 @@ var view = {
   },
 
   displayWin: function() {
-    var winString = 'Gamer over: ';
+    var winString = 'Game over: ';
     if (model.twoPlayer) {
       winString += model.currentPlayerName() + ' (' +  model.currentPlayerColor + ') wins.';
     } else {

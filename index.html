@@ -3,12 +3,13 @@
 <head>
 
   <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1.0">
+
   <title>Gobang</title>
 
   <link href='http://fonts.googleapis.com/css?family=Raleway:400,800' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css" />
-<!--   <link rel="stylesheet" href="style-narrow.css" media="(max-width:700px)" />
- -->
+  
 </head>
 <body>
   <div id="wrapper">
@@ -26,14 +27,19 @@
     <p>Win by placing five of your stones in a row, vertically, horizontally, or diagonally, with no empty points between them. Or, win by capturing five pairs of your opponent's stones. <a href="http://www.pente.net/instructions.html" target="_blank" >more</a></p>
     <form action="">
       <div id="singlePlayer">
-        <input type="radio" name="singlePlayer" value="Single-player" class="default" > Single-player &nbsp;&nbsp;
-        <input type="radio" name="singlePlayer" value="Two-player"> Two-player
+        <input type="radio" name="singlePlayer" value="Single-player" class="default" >
+        <label for="Single-player">Single-player</label> &nbsp;&nbsp;
+        <input type="radio" name="singlePlayer" value="Two-player" >
+        <label for="Two-player">Two-player</label>
       </div>
       <br>
       <div id="difficulty">
-        <input type="radio" name="difficulty" value="Easy"> Easy &nbsp;&nbsp;
-        <input type="radio" name="difficulty" value="Medium" class="default" > Medium &nbsp;&nbsp;
-        <input type="radio" name="difficulty" value="Hard"> Hard &nbsp;&nbsp;      
+        <input type="radio" value="Easy" id="Easy" name="difficulty" >
+        <label for="Easy">Easy</label>&nbsp;&nbsp;
+        <input class="default" type="radio" value="Medium" id="Medium" name="difficulty">
+        <label for="Medium">Medium</label>&nbsp;&nbsp;
+        <input type="radio" value="Hard" id="Hard" name="difficulty">
+        <label for="Hard">Hard</label>
       </div>
       <div id="players">
         <input type="text" id="playerOne" placeholder="Player 1" class="playerName">
